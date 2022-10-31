@@ -5,7 +5,7 @@ $(function() {
 
   let xval;
   let yval;
-  let rval;
+  let rval=1;
 
   const canone = 68;
 
@@ -84,13 +84,16 @@ $(function() {
       drawTablePoint(
           rows[i]['X'],
           rows[i]['Y'],
-          rows[i]['R'],
+          rval,
           rows[i]['Результат']);
     }
   }
 
   function clearCanvasCurrent() {
     canvasCurrent[0].getContext('2d').clearRect(0, 0, canvasCurrent.width(), canvasCurrent.height());
+  }
+  function clearCanvasPoints() {
+    canvasPoints[0].getContext('2d').clearRect(0, 0, canvasCurrent.width(), canvasCurrent.height());
   }
 
   function drawCurrentPoint(x, y) {
@@ -150,6 +153,10 @@ $(function() {
 
     $('.input-form__select_x option').not(xSelect).prop('selected', false);
     $('.input-form__text_y').val(canvasY.toString().substring(0, 10));
+
+    $('.input-form__control-buttons__button_submit').click();
+    clearCanvasPoints();
+    loadTablePoints();
   });
 
   $('.input-form__select_x').on('change', event => redrawCurrentFromInput());
@@ -172,17 +179,26 @@ $(function() {
     svgGraph.querySelector('.coordinate-text_plus-Ry').textContent = (rval).toString();
     svgGraph.querySelector('.coordinate-text_plus-half-Rx').textContent = (rval/2).toString();
     svgGraph.querySelector('.coordinate-text_plus-half-Ry').textContent = (rval/2).toString();
-
+    clearCanvasPoints();
+    loadTablePoints();
     redrawCurrentFromInput();
   });
 
+
+
+
   $('.input-form__control-buttons__button_submit').on('click', function(event) {
+    //event.preventDefault();
     if (!validateForm()) {
       event.preventDefault();
     } else {
       $('.input-form__hidden_r input[type=hidden]').val(rval);
+      clearCanvasPoints();
+      loadTablePoints();
     }
   });
 
+  clearCanvasPoints();
   loadTablePoints();
+
 });

@@ -49,7 +49,7 @@ public class EntriesBean implements Serializable {
 
     }
 
-    public String addEntry() {
+    public void addEntry() {
         try {
             transaction.begin();
             entry.checkHit();
@@ -63,7 +63,7 @@ public class EntriesBean implements Serializable {
             }
             throw exception;
         }
-        return "redirect";
+  
     }
 
     public String clearEntries() {

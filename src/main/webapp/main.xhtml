@@ -5,7 +5,9 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+
+>
 
 <ui:composition template="WEB-INF/templates/master.xhtml">
 
@@ -30,7 +32,9 @@
                             <img src="#{resource['img/result-graph.png']}" width="220" height="220" alt="График"/>
                         </object>
                         <canvas class="graph-canvas graph-canvas_points" width="220" height="220">Предыдущие проверки</canvas>
-                        <canvas class="graph-canvas graph-canvas_current" width="220" height="220">Интерактивная область графика</canvas>
+                        <canvas class="graph-canvas graph-canvas_current" width="220" height="220">Интерактивная область графика
+
+                        </canvas>
                     </div>
                 </section>
 
@@ -40,7 +44,7 @@
                         Данные
                     </span>
                     </h2>
-                    <h:form class="input-form">
+                    <h:form class="input-form" id="input-form">
                         <p class="input-form__info">Введите координаты точки</p>
 
                         <div class="input-form__container input-form__container_select">
@@ -76,7 +80,7 @@
                             <ul class="input-form__control input-form__button-list_r">
                                 <li class="input-form__button-list_r__item">
                                     <h:commandButton styleClass="input-form__button input-form__button_r" id="r-button1"
-                                                     type="button" value="1"/>
+                                                     type="button" value="1" />
                                 </li>
                                 <li class="input-form__button-list_r__item">
                                     <h:commandButton styleClass="input-form__button input-form__button_r" id="r-button2"
@@ -104,9 +108,14 @@
                             </h:inputHidden>
                         </h:panelGroup>
 
-                        <div class="input-form__control-buttons__container">
+                        <div id="table" class="input-form__control-buttons__container">
                             <h:commandButton styleClass="input-form__control-buttons__button input-form__control-buttons__button_submit"
-                                             value="Отправить" action="#{entriesBean.addEntry}"/>
+                                             value="Отправить" action="#{entriesBean.addEntry}" >
+                                <f:ajax execute="@form" render="results"/>
+                            </h:commandButton>
+
+
+
                             <h:commandButton styleClass="input-form__control-buttons__button input-form__control-buttons__button_reset"
                                              value="Очистить" action="#{entriesBean.clearEntries}" immediate="true"/>
                         </div>
@@ -121,7 +130,7 @@
                 </span>
                 </h2>
                 <div class="result-table_container">
-                    <h:dataTable styleClass="result-table" value="#{entriesBean.entries}" var="entry">
+                    <h:dataTable id="results" styleClass="result-table" value="#{entriesBean.entries}" var="entry">
                         <h:column headerClass="result-table__column result-table__column_coords">
                             <f:facet name="header">X</f:facet>
                             <h:outputText value="#{entry.xValue}"/>
