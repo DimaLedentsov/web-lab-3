@@ -13,7 +13,7 @@ public class Entry implements Serializable {
 
     private Double xValue;
     private Double yValue;
-    private Integer rValue;
+    private Double rValue;
     private String hitResult;
 
     public Entry() { }
@@ -47,7 +47,7 @@ public class Entry implements Serializable {
     }
 
     public void setxValue(Double xValue) {
-        this.xValue = xValue;
+        this.xValue = Math.round(xValue*1000.0)/1000.0;
     }
 
     public Double getyValue() {
@@ -55,15 +55,15 @@ public class Entry implements Serializable {
     }
 
     public void setyValue(Double yValue) {
-        this.yValue = yValue;
+        this.yValue = Math.round(yValue*1000.0)/1000.0;;
     }
 
-    public Integer getrValue() {
+    public Double getrValue() {
         return rValue;
     }
 
-    public void setrValue(Integer rValue) {
-        this.rValue = rValue;
+    public void setrValue(Double rValue) {
+        this.rValue = Math.round(rValue*1000.0)/1000.0;;
     }
 
     public String getHitResult() {

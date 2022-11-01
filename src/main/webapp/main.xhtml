@@ -6,7 +6,7 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-
+      xmlns:pf="http://primefaces.org/ui"
 >
 
 <ui:composition template="WEB-INF/templates/master.xhtml">
@@ -119,6 +119,7 @@
                             <h:commandButton styleClass="input-form__control-buttons__button input-form__control-buttons__button_reset"
                                              value="Очистить" action="#{entriesBean.clearEntries}" immediate="true"/>
                         </div>
+
                     </h:form>
                 </section>
             </div>
@@ -152,6 +153,7 @@
             </section>
         </main>
 
+        <pf:remoteCommand name="addPoint" actionListener="#{entriesBean.addEntryWithParameters}" update="results"/>
         <h:outputScript library="js" name="main.js"/>
     </ui:define>
 

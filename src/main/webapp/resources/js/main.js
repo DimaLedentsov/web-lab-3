@@ -5,7 +5,7 @@ $(function() {
 
   let xval;
   let yval;
-  let rval=1;
+  let rval;
 
   const canone = 68;
 
@@ -47,6 +47,7 @@ $(function() {
       info.text('Введите координаты точки')
       return true;
     } else {
+      alert("Выберите значение R!");
       info.text('Выберите значение R!')
       return false;
     }
@@ -125,7 +126,7 @@ $(function() {
   }
 
   canvasCurrent.on('click', function(event) {
-    if (!validateR()) return;
+    if (!validateR()) return
 
     let canvasX = (event.offsetX - canvasCurrent.width() / 2) / canone * rval;
     let minDiff = Infinity;
@@ -139,13 +140,13 @@ $(function() {
     }
 
     let canvasY = (-event.offsetY + canvasCurrent.height() / 2) / canone * rval;
-    if (canvasY < Y_MIN) {
+    /*if (canvasY < Y_MIN) {
       canvasY = Y_MIN;
     } else if (canvasY > Y_MAX) {
       canvasY = Y_MAX;
-    }
+    }*/
 
-    drawCurrentPoint(nearestX * canone / rval + canvasCurrent.width() / 2,
+    drawCurrentPoint(canvasX * canone / rval + canvasCurrent.width() / 2,
         -(canvasY / rval *  canone - canvasCurrent.height() / 2));
 
     let xSelect = $('.input-form__select_x option[value="' + nearestX + '"]');
@@ -154,9 +155,12 @@ $(function() {
     $('.input-form__select_x option').not(xSelect).prop('selected', false);
     $('.input-form__text_y').val(canvasY.toString().substring(0, 10));
 
-    $('.input-form__control-buttons__button_submit').click();
-    clearCanvasPoints();
-    loadTablePoints();
+    /*$('.input-form__control-buttons__button_submit').click();*/
+    addPoint([{name:'x', value:canvasX}, {name:'y', value:canvasY}, {name:'r', value:rval}]).then(()=>{
+      clearCanvasPoints();
+      loadTablePoints();
+    });
+
   });
 
   $('.input-form__select_x').on('change', event => redrawCurrentFromInput());
@@ -165,11 +169,11 @@ $(function() {
 
   $('.input-form__button_r').on('click', function(event) {
     rval = $(this).val();
-    if (!validateR) return;
+    if (!validateR()) return;
 
     $(this).addClass('input-form__button_r_clicked');
     $('.input-form__button_r').not(this).removeClass('input-form__button_r_clicked');
-
+    $('.input-form__hidden_r input[type=hidden]').val(rval)
     let svgGraph = document.querySelector(".result-graph").getSVGDocument();
     svgGraph.querySelector('.coordinate-text_minus-Rx').textContent = (-rval).toString();
     svgGraph.querySelector('.coordinate-text_minus-Ry').textContent = (-rval).toString();
